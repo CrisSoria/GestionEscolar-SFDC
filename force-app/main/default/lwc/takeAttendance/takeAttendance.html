@@ -1,0 +1,41 @@
+<template>
+  <div class="container slds-p-around_medium">
+      <!-- Tarjeta principal -->
+      <article class="slds-card attendance-card">
+          <!-- Nombre del estudiante -->
+          <div class="slds-card__header slds-grid slds-grid_vertical-align-center slds-p-around_medium name-container">
+              <h2 class="student-name slds-text-heading_large slds-text-align_center">
+                  {student.name}
+              </h2>
+          </div>
+          
+          <!-- Botones de asistencia -->
+          <div class="slds-card__body">
+              <div class="slds-grid slds-gutters slds-p-around_medium slds-grid_vertical-align-center">
+                  <div class="slds-col slds-size_1-of-2">
+                      <button 
+                          class="slds-button slds-button_destructive attendance-btn absent-btn" 
+                          onclick={handleAbsent}
+                          aria-label="Marcar como ausente">
+                          <span class="slds-icon_container slds-icon-utility-close slds-m-right_x-small">
+                              ❌
+                          </span>
+                          Ausente
+                      </button>
+                  </div>
+                  <div class="slds-col slds-size_1-of-2">
+                      <button 
+                          class="slds-button slds-button_success attendance-btn present-btn" 
+                          onclick={handlePresent}
+                          aria-label="Marcar como presente">
+                          <span class="slds-icon_container slds-icon-utility-check slds-m-right_x-small">
+                              ✅
+                          </span>
+                          Presente
+                      </button>
+                  </div>
+              </div>
+          </div>
+      </article>
+  </div>
+</template>

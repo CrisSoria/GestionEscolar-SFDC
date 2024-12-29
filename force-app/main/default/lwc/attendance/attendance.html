@@ -1,0 +1,14 @@
+<template>
+  <div class="containe">
+    <template lwc:if={showTakeAttendance}>
+      <c-take-attendance 
+        student={studentAtt} 
+        onabsent={takingAttendance} 
+        onpresent={takingAttendance}>
+      </c-take-attendance>
+    </template>
+    <template lwc:else>
+      <c-students-list students={studentsAbsents}></c-students-list>
+    </template>
+  </div>
+</template>
