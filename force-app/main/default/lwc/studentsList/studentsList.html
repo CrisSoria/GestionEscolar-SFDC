@@ -1,38 +1,43 @@
 <template>
-  <div class="container slds-p-around_medium">
-      <div class="students-container">
-          <!-- Lista de estudiantes -->
-          <template for:each={students} for:item="student">
-              <article key={student.order} class="student-card slds-card slds-m-bottom_small">
-                  <div class="slds-grid slds-grid_vertical-align-center slds-p-around_medium">
-                      <!-- Número de orden -->
-                      <div class="order-number slds-col slds-size_2-of-12">
-                          <span class="order-badge">{student.order}</span>
-                      </div>
-                      <!-- Nombre del estudiante -->
-                      <div class="slds-col slds-size_10-of-12">
-                          <lightning-formatted-name
-                              first-name={student.name}
-                              class="student-name"
-                          >
-                          </lightning-formatted-name>
-                      </div>
-                  </div>
-              </article>
-          </template>
-      </div>
-
-      <!-- Botón de guardar -->
-      <div class="save-button-container slds-m-top_medium">
-          <button 
-              onclick={handleFinalization}
-              class="slds-button slds-button_brand save-button"
-              aria-label="Guardar asistencia">
-              <span class="slds-icon_container slds-icon-utility-save slds-m-right_x-small">
-                  💾
-              </span>
-              Guardar Asistencia
-          </button>
-      </div>
-  </div>
+    <div class="container">
+        <!-- 
+        <header class="slds-p-around_medium">
+            <h1 class="slds-text-heading_medium header-title">
+                <lightning-icon
+                    icon-name="standard:employee_organization"
+                    alternative-text="Lista de estudiantes"
+                    size="small"
+                    class="slds-m-right_small"
+                ></lightning-icon>
+                Lista de Estudiantes
+            </h1>
+        </header>
+         -->
+        
+        <div class="students-container slds-p-horizontal_small">
+            <template for:each={students} for:item="student">
+                <article key={student.Id} class="student-card">
+                    <div class="slds-grid slds-grid_vertical-align-center">
+                        <div class="order-badge-container slds-p-around_small">
+                            <span class="order-badge">{student.Order}</span>
+                        </div>
+                        <div class="student-info slds-grow">
+                            <div class="student-name">
+                                <p class="lastname">{student.LastName}</p>
+                                <p class="firstname">{student.FirstName}</p>
+                            </div>
+                        </div>
+                        <div class="action-icon slds-p-around_small">
+                            <lightning-icon
+                                icon-name="utility:chevronright"
+                                alternative-text="Ver detalles"
+                                size="x-small"
+                                class="chevron-icon"
+                            ></lightning-icon>
+                        </div>
+                    </div>
+                </article>
+            </template>
+        </div>
+    </div>
 </template>

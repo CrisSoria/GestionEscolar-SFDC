@@ -1,41 +1,102 @@
 <template>
-  <div class="container slds-p-around_medium">
-      <!-- Tarjeta principal -->
-      <article class="slds-card attendance-card">
-          <!-- Nombre del estudiante -->
-          <div class="slds-card__header slds-grid slds-grid_vertical-align-center slds-p-around_medium name-container">
-              <h2 class="student-name slds-text-heading_large slds-text-align_center">
-                  {student.name}
-              </h2>
-          </div>
-          
-          <!-- Botones de asistencia -->
-          <div class="slds-card__body">
-              <div class="slds-grid slds-gutters slds-p-around_medium slds-grid_vertical-align-center">
-                  <div class="slds-col slds-size_1-of-2">
-                      <button 
-                          class="slds-button slds-button_destructive attendance-btn absent-btn" 
-                          onclick={handleAbsent}
-                          aria-label="Marcar como ausente">
-                          <span class="slds-icon_container slds-icon-utility-close slds-m-right_x-small">
-                              ❌
-                          </span>
-                          Ausente
-                      </button>
-                  </div>
-                  <div class="slds-col slds-size_1-of-2">
-                      <button 
-                          class="slds-button slds-button_success attendance-btn present-btn" 
-                          onclick={handlePresent}
-                          aria-label="Marcar como presente">
-                          <span class="slds-icon_container slds-icon-utility-check slds-m-right_x-small">
-                              ✅
-                          </span>
-                          Presente
-                      </button>
-                  </div>
-              </div>
-          </div>
-      </article>
-  </div>
+    <div class="attendance-container">
+        <template if:true={showAtt}>
+            <!-- Componente de toma de asistencia activa -->
+            <article class="attendance-card">
+                <div class="navigation-header">
+                    <button
+                        class="nav-button"
+                        onclick={prevStudent}
+                        disabled={isFirstStudent}
+                        aria-label="Alumno anterior"
+                    >
+                        <lightning-icon
+                            icon-name="utility:chevronleft"
+                            size="small"
+                            class="nav-icon"
+                        ></lightning-icon>
+                    </button>
+                    <div class="progress-indicator">
+                        <span class="current-count">{currentStudentNumber}</span>
+                        <span class="total-count">/ {totalStudents}</span>
+                    </div>
+                </div>
+
+                <div class="student-info-container">
+                    <template if:true={studentAtt}>
+                        <div class="student-avatar">
+                            <lightning-icon
+                                icon-name="standard:person_account"
+                                size="large"
+                            ></lightning-icon>
+                        </div>
+                        <h2 class="student-name">
+                            <span class="lastname">{studentAtt.LastName}</span>
+                            <span class="firstname">{studentAtt.FirstName}</span>
+                        </h2>
+                    </template>
+                </div>
+
+                <div class="actions-container">
+                    <button
+                        class="action-button absent-button"
+                        onclick={handleAbsent}
+                        aria-label="Marcar como ausente"
+                    >
+                        <lightning-icon
+                            icon-name="utility:close"
+                            size="small"
+                            class="button-icon"
+                        ></lightning-icon>
+                        <span>Ausente</span>
+                    </button>
+                    
+                    <button
+                        class="action-button present-button"
+                        onclick={handlePresent}
+                        aria-label="Marcar como presente"
+                    >
+                        <lightning-icon
+                            icon-name="utility:check"
+                            size="small"
+                            class="button-icon"
+                        ></lightning-icon>
+                        <span>Presente</span>
+                    </button>
+                </div>
+            </article>
+        </template>
+        
+        <template if:false={showAtt}>
+            <!-- Vista de resumen y guardado -->
+            <div class="summary-view">
+                <div class="absents-list-container">
+                    <h2 class="section-title">
+                        <lightning-icon
+                            icon-name="utility:announcement"
+                            size="small"
+                            class="title-icon"
+                        ></lightning-icon>
+                        Estudiantes Ausentes
+                    </h2>
+                    <c-students-list students={studentsAbsents}></c-students-list>
+                </div>
+            </div>
+            
+            <div class="save-button-wrapper">
+                <button 
+                    onclick={handleFinalization}
+                    class="save-button"
+                    aria-label="Guardar asistencia"
+                >
+                    <lightning-icon
+                        icon-name="utility:save"
+                        size="small"
+                        class="button-icon"
+                    ></lightning-icon>
+                    <span>Guardar Asistencia</span>
+                </button>
+            </div>
+        </template>
+    </div>
 </template>

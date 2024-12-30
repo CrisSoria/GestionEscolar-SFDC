@@ -1,14 +1,79 @@
 <template>
-  <div class="containe">
-    <template lwc:if={showTakeAttendance}>
-      <c-take-attendance 
-        student={studentAtt} 
-        onabsent={takingAttendance} 
-        onpresent={takingAttendance}>
-      </c-take-attendance>
-    </template>
-    <template lwc:else>
-      <c-students-list students={studentsAbsents}></c-students-list>
-    </template>
+  <div class="container">
+      <header class="header">
+          <div class="date-badge">
+              <lightning-icon
+                  icon-name="utility:event"
+                  size="small"
+                  class="date-icon"
+              ></lightning-icon>
+              <h1 class="date-text">{fechaActualFormateada}</h1>
+          </div>
+      </header>
+
+      <main class="main-content">
+          <template if:true={students.data}>
+              <!-- Caso: Ya se tomó asistencia -->
+              <template if:true={todayAttendance}>
+                  <div class="status-section">
+                      <div class="status-header">
+                          <lightning-icon
+                              icon-name="utility:announcement"
+                              size="small"
+                              class="status-icon"
+                          ></lightning-icon>
+                          <h2 class="status-title">Registro de Ausencias</h2>
+                      </div>
+                      <c-students-list students={studentsAbsents}></c-students-list>
+                  </div>
+              </template>
+
+              <!-- Caso: No se ha tomado asistencia -->
+              <template if:true={showBtnTakeAttendance}>
+                  <div class="empty-state">
+                      <div class="empty-state-icon">
+                          <lightning-icon
+                              icon-name="utility:priority"
+                              size="large"
+                              class="warning-icon"
+                          ></lightning-icon>
+                      </div>
+                      <h3 class="empty-state-title">Asistencia Pendiente</h3>
+                      <p class="empty-state-text">La asistencia no ha sido registrada para el día de hoy</p>
+                      <button 
+                          onclick={showTakeAttendanceHandler}
+                          class="take-attendance-button">
+                          <lightning-icon
+                              icon-name="utility:checkin"
+                              size="small"
+                              class="button-icon"
+                          ></lightning-icon>
+                          Tomar Asistencia
+                      </button>
+                  </div>
+              </template>
+
+              <!-- Componente de toma de asistencia -->
+              <template if:true={showTakeAttendance}>
+                  <c-take-attendance students={students.data}>
+                  </c-take-attendance>
+              </template>
+          </template>
+
+          <!-- Estado: Sin estudiantes -->
+          <template if:false={students.data}>
+              <div class="empty-state">
+                  <div class="empty-state-icon">
+                      <lightning-icon
+                          icon-name="utility:error"
+                          size="large"
+                          class="error-icon"
+                      ></lightning-icon>
+                  </div>
+                  <h2 class="empty-state-title">Sin Estudiantes</h2>
+                  <p class="empty-state-text">No se encontraron estudiantes registrados</p>
+              </div>
+          </template>
+      </main>
   </div>
 </template>
