@@ -249,6 +249,11 @@
   }
 }
 
+.fixed-bottom {
+  position: fixed;
+  bottom: 0;
+}
+
 /* Dark mode support */
 /* 
 @media (prefers-color-scheme: dark) {

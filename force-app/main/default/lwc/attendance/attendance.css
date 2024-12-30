@@ -204,10 +204,7 @@
     transition: none;
   }
 }
-.fixed-bottom {
-  position: fixed;
-  bottom: 0;
-}
+
 
 /* Dark mode support */
 /*

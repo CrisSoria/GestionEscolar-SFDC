@@ -14,7 +14,7 @@
       <main class="main-content">
           <template if:true={students.data}>
               <!-- Caso: Ya se tomó asistencia -->
-              <template if:true={todayAttendance}>
+              <template if:true={showTodayAttendance}>
                   <div class="status-section">
                       <div class="status-header">
                           <lightning-icon
@@ -22,7 +22,7 @@
                               size="small"
                               class="status-icon"
                           ></lightning-icon>
-                          <h2 class="status-title">Registro de Ausencias</h2>
+                          <h2 class="status-title">Ausentes el día de hoy</h2>
                       </div>
                       <c-students-list students={studentsAbsents}></c-students-list>
                   </div>
@@ -55,14 +55,14 @@
 
               <!-- Componente de toma de asistencia -->
               <template if:true={showTakeAttendance}>
-                  <c-take-attendance students={students.data}>
+                  <c-take-attendance students={students.data} onsaveatt={saveAttHandler}>
                   </c-take-attendance>
               </template>
           </template>
 
           <!-- Estado: Sin estudiantes -->
           <template if:false={students.data}>
-              <div class="empty-state fixed-bottom">
+              <div class="empty-state">
                   <div class="empty-state-icon">
                       <lightning-icon
                           icon-name="utility:error"

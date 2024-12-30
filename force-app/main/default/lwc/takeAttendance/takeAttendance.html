@@ -21,7 +21,7 @@
                         <span class="total-count">/ {totalStudents}</span>
                     </div>
                 </div>
-
+                
                 <div class="student-info-container">
                     <template if:true={studentAtt}>
                         <div class="student-avatar">
@@ -67,6 +67,23 @@
             </article>
         </template>
         
+        <!-- Loading Spinner -->
+        <template if:true={isLoading}>
+            <div class="slds-is-relative slds-p-around_medium">
+                <lightning-spinner alternative-text="Cargando" size="small"></lightning-spinner>
+            </div>
+        </template>
+
+        <!-- Error Message -->
+        <template if:true={error}>
+            <div class="slds-p-around_medium">
+                <div class="slds-notify slds-notify_alert slds-alert_error" role="alert">
+                    <lightning-icon icon-name="utility:error" size="small" class="slds-m-right_x-small"></lightning-icon>
+                    <h2>{error}</h2>
+                </div>
+            </div>
+        </template>
+
         <template if:false={showAtt}>
             <!-- Vista de resumen y guardado -->
             <div class="summary-view">
@@ -83,9 +100,9 @@
                 </div>
             </div>
             
-            <div class="save-button-wrapper">
+            <div class="save-button-wrapper fixed-bottom">
                 <button 
-                    onclick={handleFinalization}
+                    onclick={handleSaveAttendance}
                     class="save-button"
                     aria-label="Guardar asistencia"
                 >

@@ -1,12 +1,16 @@
 import { api, LightningElement, track } from 'lwc';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import createAttendance from "@salesforce/apex/AttendanceController.createAttendance";
 
 export default class TakeAttendance extends LightningElement {
     @api students; //lista de todos los estudiantes desde SFDC
     @track studentAtt; //estudiante al que se le está tomando asistencia
     contStudent = 0; //index del estudiante al que se le está tomando asistencia
-    eventsToUpsert = {}; // [{"IdStudent":"0038W00001sOzTfQAK","Attendance":"Presente"},{"IdStudent":"0038W00001sOzTgQAK","Attendance":"Ausente"}]
+    eventsToUpsert = {}; // { "0038W00001sOzTfQAK":"Presente","0038W00001sOzTgQAK":"Ausente", ... }
     showAtt = false; //controla cuando dejar de mostrar el LWC para tomar asistencia
     studentsAbsents = []; //lista de alumnos ausentes
+    @track isLoading = false;
+    @track error;
 
     connectedCallback() {
         if (this.students?.length > 0) {
@@ -70,10 +74,32 @@ export default class TakeAttendance extends LightningElement {
         }
     }
 
-    handleFinalization() {
-        // Llamar al método de la clase Apex
-        // {"0038W00001sOzTfQAK":"Presente","0038W00001sOzTgQAK":"Presente","0038W00001sOzTiQAK":"Presente","0038W00002b9gdrQAA":"Ausente","0038W00002b9iMDQAY":"Presente","0038W00001sOzTjQAK":"Presente","0038W00001sOzTqQAK":"Presente","0038W00001sOzTbQAK":"Ausente","0038W00001sOzTrQAK":"Presente","0038W00001sOzTaQAK":"Ausente","0038W00001sOzTmQAK":"Presente","0038W00001sOzTkQAK":"Ausente","0038W00001sOzToQAK":"Presente","0038W00001sOzTnQAK":"Presente","0038W00001sOzTtQAK":"Presente","0038W00001sOzTsQAK":"Presente","0038W00001sOzThQAK":"Presente","0038W00002b9iMNQAY":"Presente","0038W00001sOzTpQAK":"Presente","0038W00001sOzTcQAK":"Presente","0038W00001sOzTlQAK":"Presente","0038W00002b9iLdQAI":"Presente","0038W00001sOzTdQAK":"Presente","0038W00002b9SxvQAE":"Presente","0038W00001sOzTeQAK":"Presente"}
-        
-        console.log('Finalización de la toma de asistencia: ' + JSON.stringify(this.eventsToUpsert));
+    handleSaveAttendance() {
+
+        this.isLoading = true;
+
+        createAttendance({ IdAtt: this.eventsToUpsert })
+            .then(result => {
+                const e = new CustomEvent('saveatt', {
+                    detail : "dato que quiero enviar"
+                  })
+                this.dispatchEvent(e);
+                
+                const evt = new ShowToastEvent({
+                    title: 'Éxito',
+                    message: result,
+                    variant: 'success'
+                });
+                this.dispatchEvent(evt);
+
+                
+            })
+            .catch(error => {
+                console.error('Error cargando la asistencia:', error);
+                this.error = error.body?.message || 'Error al importar los eventos';
+            })
+            .finally(() => {
+                this.isLoading = false;
+            });
     }
 }
