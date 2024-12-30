@@ -1,172 +1,201 @@
+/* Variables de color a nivel global */
 :host {
-  --misty-rose: #ffd9da;
-  --blush: #ea638c;
-  --murrey: #89023e;
-  --gunmetal: #30343f;
-  --eerie-black: #1b2021;
-  --background-color: #f7f7f7;
+  /* Colores primarios */
+  --color-primary: #89023e;
+  --color-primary-light: #b30751;
+  --color-primary-dark: #6b022f;
+  
+  /* Colores secundarios */
+  --color-secondary: #ea638c;
+  --color-secondary-light: #ffd9da;
+  --color-secondary-dark: #d14d74;
+  
+  /* Colores de estado */
+  --color-success: #2e7d32;
+  --color-warning: #ff9900;
+  --color-error: #d32f2f;
+  
+  /* Colores neutrales */
+  --color-text-primary: #1b2021;
+  --color-text-secondary: #30343f;
+  --color-background: #f7f7f7;
+  --color-surface: #ffffff;
+  
+  /* Sombras */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.12);
+  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.15);
+  
+  /* Espaciado */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  
+  /* Border radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 24px;
+  
+  /* Tipografía */
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.25rem;
+  --font-size-xl: 1.5rem;
 }
 
 .container {
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: var(--background-color);
+  background-color: var(--color-background);
 }
 
-/* Header y fecha */
+/* Header optimizado para móvil */
 .header {
-  background: var(--murrey);
-  padding: 1.5rem 1rem;
-  color: white;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  flex-shrink: 0;
-  /* Evita que el header se encoja */
+  background: var(--color-primary);
+  padding: var(--spacing-md) var(--spacing-md);
+  color: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 .date-badge {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  max-width: 768px;
-  margin: 0 auto;
+  gap: var(--spacing-sm);
+  padding: 0 var(--spacing-sm);
 }
 
 .date-icon {
-  --sds-c-icon-color-foreground-default: white;
+  --sds-c-icon-color-foreground-default: var(--color-surface);
 }
 
 .date-text {
-  font-size: 1.25rem;
+  font-size: var(--font-size-lg);
   font-weight: 500;
-  text-transform: capitalize;
 }
 
-/* Contenido principal */
+/* Contenido principal con mejor espaciado para móvil */
 .main-content {
   flex: 1;
-  overflow: hidden;
-  /* Contiene el scroll */
-  position: relative;
+  padding: var(--spacing-md);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
-/* Sección de estado */
+/* Sección de estado con bordes más suaves */
 .status-section {
-  background: white;
-  border-radius: 24px;
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-md);
+  margin-bottom: var(--spacing-lg);
 }
 
 .status-header {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 1.25rem;
-  background: var(--misty-rose);
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  background: var(--color-secondary-light);
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 .status-icon {
-  --sds-c-icon-color-foreground-default: var(--murrey);
+  --sds-c-icon-color-foreground-default: var(--color-primary);
 }
 
 .status-title {
-  color: var(--murrey);
-  font-size: 1.25rem;
+  color: var(--color-primary);
+  font-size: var(--font-size-lg);
   font-weight: 600;
 }
 
-/* Estado vacío */
+/* Empty state más compacto en móvil */
 .empty-state {
   text-align: center;
-  padding: 3rem 1rem;
-  background: white;
-  border-radius: 24px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: var(--spacing-xl) var(--spacing-md);
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
 }
 
 .empty-state-icon {
-  margin-bottom: 1.5rem;
+  margin-bottom: var(--spacing-lg);
 }
 
 .warning-icon {
-  --sds-c-icon-color-foreground-default: #ff9900;
+  --sds-c-icon-color-foreground-default: var(--color-warning);
 }
 
 .error-icon {
-  --sds-c-icon-color-foreground-default: var(--blush);
+  --sds-c-icon-color-foreground-default: var(--color-error);
 }
 
 .empty-state-title {
-  font-size: 1.5rem;
+  font-size: var(--font-size-xl);
   font-weight: 600;
-  color: var(--gunmetal);
-  margin-bottom: 0.5rem;
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-xs);
 }
 
 .empty-state-text {
-  color: var(--gunmetal);
-  opacity: 0.7;
-  margin-bottom: 2rem;
+  color: var(--color-text-secondary);
+  opacity: 0.8;
+  margin-bottom: var(--spacing-lg);
+  font-size: var(--font-size-base);
 }
 
-/* Botón de tomar asistencia */
+/* Botón de tomar asistencia optimizado para touch */
 .take-attendance-button {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 1rem 2rem;
-  background: var(--murrey);
-  color: white;
-  border-radius: 12px;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md) var(--spacing-xl);
+  background: var(--color-primary);
+  color: var(--color-surface);
+  border-radius: var(--radius-md);
   font-weight: 600;
-  transition: all 0.2s ease;
+  font-size: var(--font-size-base);
+  min-height: 48px; /* Tamaño mínimo para touch targets */
+  width: 100%;
+  max-width: 300px;
+  transition: background-color 0.2s ease;
 }
 
-.take-attendance-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(137, 2, 62, 0.2);
+.take-attendance-button:hover,
+.take-attendance-button:focus {
+  background: var(--color-primary-light);
 }
 
 .take-attendance-button:active {
-  transform: translateY(0);
+  background: var(--color-primary-dark);
 }
 
 .button-icon {
-  --sds-c-icon-color-foreground-default: white;
+  --sds-c-icon-color-foreground-default: var(--color-surface);
 }
 
-/* Media queries */
+/* Media queries para tablets y desktop */
 @media (min-width: 768px) {
   .header {
-    padding: 2rem;
-  }
-
-  .date-text {
-    font-size: 1.5rem;
-  }
-
-  .main-content {
-    padding: 2rem;
-  }
-
-  .empty-state {
-    padding: 4rem 2rem;
-  }
-
-  .summary-view {
-    padding: 2rem;
-    padding-bottom: 2rem;
-    /* En desktop no necesitamos espacio extra */
-  }
-
-  .save-button-wrapper {
-    position: static;
-    box-shadow: none;
-    padding: 1rem 2rem;
+    padding: var(--spacing-lg);
   }
   
+  .main-content {
+    padding: var(--spacing-xl);
+    max-width: 768px;
+    margin: 0 auto;
+  }
+  
+  .take-attendance-button {
+    width: auto;
+  }
 }
 
 /* Accesibilidad */
@@ -175,3 +204,19 @@
     transition: none;
   }
 }
+.fixed-bottom {
+  position: fixed;
+  bottom: 0;
+}
+
+/* Dark mode support */
+/*
+@media (prefers-color-scheme: dark) {
+  :host {
+    --color-background: #121212;
+    --color-surface: #1e1e1e;
+    --color-text-primary: #ffffff;
+    --color-text-secondary: rgba(255, 255, 255, 0.7);
+  }
+}
+  */

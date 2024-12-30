@@ -1,36 +1,28 @@
 <template>
     <div class="container">
-        <!-- 
-        <header class="slds-p-around_medium">
-            <h1 class="slds-text-heading_medium header-title">
-                <lightning-icon
-                    icon-name="standard:employee_organization"
-                    alternative-text="Lista de estudiantes"
-                    size="small"
-                    class="slds-m-right_small"
-                ></lightning-icon>
-                Lista de Estudiantes
-            </h1>
-        </header>
-         -->
-        
-        <div class="students-container slds-p-horizontal_small">
+        <div class="students-container">
             <template for:each={students} for:item="student">
-                <article key={student.Id} class="student-card">
-                    <div class="slds-grid slds-grid_vertical-align-center">
-                        <div class="order-badge-container slds-p-around_small">
-                            <span class="order-badge">{student.Order}</span>
+                <article 
+                    key={student.Id} 
+                    class="student-card"
+                    role="listitem"
+                >
+                    <div class="student-card-grid">
+                        <div class="order-badge" aria-label={student.Order}>
+                            {student.Order}
                         </div>
-                        <div class="student-info slds-grow">
+                        
+                        <div class="student-info">
                             <div class="student-name">
-                                <p class="lastname">{student.LastName}</p>
+                                <h2 class="lastname">{student.LastName}</h2>
                                 <p class="firstname">{student.FirstName}</p>
                             </div>
                         </div>
-                        <div class="action-icon slds-p-around_small">
+                        
+                        <div class="action-icon">
                             <lightning-icon
                                 icon-name="utility:chevronright"
-                                alternative-text="Ver detalles"
+                                alternative-text="Ver detalles del estudiante"
                                 size="x-small"
                                 class="chevron-icon"
                             ></lightning-icon>
