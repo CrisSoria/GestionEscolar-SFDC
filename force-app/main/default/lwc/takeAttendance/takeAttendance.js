@@ -17,7 +17,19 @@ export default class TakeAttendance extends LightningElement {
             this.studentAtt = this.students[0];
             this.showAtt = true;
         }
+        //evitar la perdida de datos al recargar la página mientras se toma asistencia
+        window.addEventListener('beforeunload', this.handleBeforeUnload);
     }
+    disconnectedCallback() {
+        window.removeEventListener('beforeunload', this.handleBeforeUnload);
+    }
+    handleBeforeUnload = (event) => {
+        if (Object.keys(this.eventsToUpsert).length > 0) {
+            event.preventDefault();
+            event.returnValue = '';
+        }
+    }
+
 
     get isFirstStudent() {
         return this.contStudent === 0;
@@ -91,7 +103,7 @@ export default class TakeAttendance extends LightningElement {
                     variant: 'success'
                 });
                 this.dispatchEvent(evt);
-
+                this.eventsToUpsert = {}; // Limpiar los cambios después de guardar
                 
             })
             .catch(error => {

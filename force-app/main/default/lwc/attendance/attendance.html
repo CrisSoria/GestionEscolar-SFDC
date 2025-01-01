@@ -74,6 +74,21 @@
                   <p class="empty-state-text">No se encontraron estudiantes registrados</p>
               </div>
           </template>
+
+          <!-- Estado: Feriado -->
+          <template if:true={showMessage}>
+            <div class="empty-state">
+                <div class="empty-state-icon">
+                    <lightning-icon
+                        icon-name="utility:key_dates"
+                        size="large"
+                        class="error-icon"
+                    ></lightning-icon>
+                </div>
+                <h2 class="empty-state-title">{message.title}</h2>
+                <p class="empty-state-text">{message.text}</p>
+            </div>
+        </template>
       </main>
   </div>
 </template>

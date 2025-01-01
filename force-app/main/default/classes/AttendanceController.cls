@@ -57,11 +57,20 @@ public with sharing class AttendanceController {
     @AuraEnabled(cacheable=true)
     public static List<EventContactWrapper> getAttendance() {
         List<Event> todayAttendance = [
-                SELECT Id, WhoId, Who.FirstName, Who.LastName, StartDateTime, Type
+                SELECT Id, WhoId, Who.FirstName, Who.LastName, StartDateTime, Type, Subject
                 FROM Event
                 WHERE DAY_ONLY(StartDateTime) = TODAY 
-                AND Type IN ('Presente', 'Ausente')
+                AND Type IN ('Presente', 'Ausente', 'Feriado')
         ];
+
+        // CASO: Feriado
+        if (todayAttendance[0].Type == 'Feriado') {
+            List<EventContactWrapper> holidayList = new List<EventContactWrapper>();
+            EventContactWrapper holiday = new EventContactWrapper(todayAttendance[0], null);
+            holidayList.add(holiday);
+
+            return holidayList;
+        }
         
         List<Contact> students = getStudents();
         
@@ -96,7 +105,7 @@ public with sharing class AttendanceController {
             // Creamos los eventos
             for (Id idContact : IdAtt.keySet()) {
                 Event newEvent = new Event();
-                newEvent.Subject = 'Other';
+                newEvent.Subject = IdAtt.get(idContact);
                 newEvent.IsAllDayEvent = true;
                 newEvent.StartDateTime = Date.today();
                 newEvent.WhoId = idContact;
